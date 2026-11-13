@@ -2,6 +2,7 @@ from collections import defaultdict
 from itertools import product
 
 # Super-auspicious dates: day d -> polygon with d+2 sides
+
 def super_dates(y_lo, y_hi):
     out = []
     for d in range(1, 32):
@@ -9,6 +10,7 @@ def super_dates(y_lo, y_hi):
         if 360 % n:                      # interior angle 180 - 360/n must be whole
             continue
         ang = 180 - 360 // n
+
         for m in range(1, 13):
             if ang % m:                  # month must divide the angle
                 continue
@@ -19,6 +21,7 @@ def super_dates(y_lo, y_hi):
 
 MIN_GAP = 13                             # youngest plausible parent age
 dates = super_dates(1925, 2024)          # Jay under 100 on his 2024 birthday
+
 
 sols = []
 for jay, kay, elle, em in product(dates, repeat=4):
