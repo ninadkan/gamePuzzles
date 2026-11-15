@@ -25,8 +25,7 @@ def isPrime(n):
 
 lstAllPrimeNumbers = [ x for x in range(2,1000) if (isPrime(x))]
 
-
-condition = lambda x: ((x> 99) and (x < 1000))
+condition = lambda x: (x < 1000) # less than or equal to 999
 
 lstSumOfAllPrimeNumbers = []
 
@@ -38,11 +37,11 @@ for idx, p  in enumerate(lstAllPrimeNumbers):
 
 # drop duplicates
 lstSumOfAllPrimeNumbers = list(set(lstSumOfAllPrimeNumbers))
-print("Sum of all primes = {}".format(lstSumOfAllPrimeNumbers))
 
-lstAllSquares = [x**2 for x in range(1, 400)]
+lstAllSquares = [x**2 for x in range(1, 500)]
 
 lstDiffOfAllSquares = []
+
 for idx,p in (enumerate(lstAllSquares)):
     for idxy, q in enumerate(lstAllSquares, start=idx+1):
         # Difference of two squares need to be in 3 digits. 
@@ -53,7 +52,6 @@ for idx,p in (enumerate(lstAllSquares)):
 
 # drop duplicates
 lstDiffOfAllSquares = list(set(lstDiffOfAllSquares))
-print("Difference of all squares = {}".format(lstDiffOfAllSquares))
 
 '''
 function digits(n)
@@ -70,43 +68,39 @@ def areConditionsSatisfied(m):
 
     lkDigits = digits(m)
     # the three combinations are
+    # TODO:: Enhancement
     allCombinations =   [100*lkDigits[0] + 10*lkDigits[1]+ lkDigits[2], 
                          100*lkDigits[0] + 10*lkDigits[2]+ lkDigits[1],
                          100*lkDigits[1] + 10*lkDigits[0]+ lkDigits[2],
                          100*lkDigits[1] + 10*lkDigits[2]+ lkDigits[0],
                          100*lkDigits[2] + 10*lkDigits[0]+ lkDigits[1],
                          100*lkDigits[2] + 10*lkDigits[1]+ lkDigits[0]]
-    #print(allCombinations)
     allTrueCombinations = [x for x in allCombinations if condition(x)]
     #dropDuplicates
     allTrueCombinations = list(set(allTrueCombinations))
 
-    print("Digits = {}, All Combinations = {}".format(lkDigits,allTrueCombinations))
-
     noOfCombinations = len(allTrueCombinations)
-    twoThirdOfCombinations = round(2*noOfCombinations/3,0)
-    match = True
-    for item in allTrueCombinations:
-        primeMatchCount = 0
-        squareMatchCount = 0
-        if item in lstSumOfAllPrimeNumbers:
-            primeMatchCount += 1
-        else:
-            match = False
-            break
 
-        if match and item in lstDiffOfAllSquares:
-            squareMatchCount += 1
-        else:
-            match = False
-            break
+    if (noOfCombinations in [3,6]): # two combinations possible to get a 2/3rd value
+        twoThirdOfCombinations = int(round(2/3*noOfCombinations, 0))
+        match = False
+        primeMatchCount =0
+        squareMatchCount =0
+        for item in allTrueCombinations:
+            match = True
+            if item in lstSumOfAllPrimeNumbers:
+                primeMatchCount += 1
+            else:
+                match = False
+                break
 
-    if match:
-       if noOfCombinations == primeMatchCount :
-           if twoThirdOfCombinations == squareMatchCount :
-               # EUREKA
-               print("Solution Found = {}".format(m))
-               rv = True
+            if match :
+                if item in lstDiffOfAllSquares:
+                    squareMatchCount += 1 # we cannot break here, 
+        if match:
+            if noOfCombinations == primeMatchCount :
+                if twoThirdOfCombinations == squareMatchCount :
+                    rv = True
     return rv
             
         
